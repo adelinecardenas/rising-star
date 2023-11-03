@@ -1,0 +1,59 @@
+{% load static  %}
+
+<header class="main-nav">
+  <div class="sidebar-user text-center">
+  </div>
+  <nav>
+    <div class="main-navbar">
+      <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+      <div id="mainnav">           
+        <ul class="nav-menu custom-scrollbar">
+          <li class="nav-header">
+            <div class="dropdown profile-element">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <span class="clear">
+                  <span class="block m-t-xs"><strong class="font-bold">{{request.user.username}}</strong></span>
+                  <span class="text-muted text-xs block">{{request.user.email}}<b class="caret"></b></span>
+                </span>
+              </a>
+              <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                <li><a class="dropdown-item" href="{% url "dashboard:update-profile" %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url "dashboard:logout" %}">Logout</a></li>
+              </ul>
+            </div>
+            <div class="logo-element">
+              <img src="{% static 'dashboard/assets/images/logo-icon.png' %}" alt="">
+            </div>
+         
+         
+         
+      
+          <li class="sidebar-main-title">
+            <div>
+              <h6>Dashboard        </h6>
+            </div>
+          </li>
+          <li><a class="nav-link menu-title link-nav" href="{% url 'dashboard:home' %}"><i data-feather="navigation-2"></i><span>Dashboard</span></a></li>
+          <li><a class="nav-link menu-title link-nav" href="{% url 'dashboard:purchase-products' %}"><i data-feather="file"></i><span>Purchase Cloud Software Products</span></a></li>
+          <li ><a class="nav-link menu-title link-nav" href="{% url 'dashboard:payments' %}"><i data-feather="aperture"></i><span>Payments</span></a></li>
+          <li ><a class="nav-link menu-title link-nav" href="{% url 'dashboard:products-access' %}"><i data-feather="anchor"></i><span>Access Cloud Software Products</span></a></li>
+          <li><a href="{% url "dashboard:profile-portal-home" %}" class="nav-link menu-title link-nav">
+            <i class="flaticon-013-checkmark"></i>
+            <span class="nav-text">Profile</span>
+          </a>
+          </li>
+          <li><a href="{% url "dashboard:logout" %}"  class="nav-link menu-title link-nav">
+            <i ><svg  xmlns="http://www.w3.org/2000/svg" class="text-danger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </i>
+            <span class="nav-text">Logout</span>
+          </a>
+          </li>   
+          
+        </ul>
+      </div>
+      <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+    </div>
+  </nav>
+</header>
+
+

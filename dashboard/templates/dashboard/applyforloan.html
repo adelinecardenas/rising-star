@@ -1,0 +1,504 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+<style>
+.originfee{
+  align-items: center;
+  margin-top: 5rem;
+  justify-content: center;
+}
+.originfee .stage {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #65799b;
+}
+
+.originfee .btn {
+  margin-top: 2rem;
+  width: fit-content;
+  font-size: 15px;
+  height: 60px;
+  border: none;
+  outline: none;
+  background: #c38b8b;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.originfee .btn::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  left: -2px;
+  top: -2px;
+  background: linear-gradient(
+    124deg,
+    #ff2400,
+    #e81d1d,
+    #e8b71d,
+    #e3e81d,
+    #1de840,
+    #1ddde8,
+    #2b1de8,
+    #dd00f3,
+    #dd00f3
+  );
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  animation: move 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.originfee .btn:hover::before {
+  opacity: 1;
+}
+
+.originfee .btn::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #555273;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.subscriptionplan .container {
+  width: 100%;
+}
+
+.subscriptionplan .packages {
+  margin: 20px;
+  width: 300px;
+  padding-bottom: 1.5em;
+  height: 100%;
+  background-color: #1e2321;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 19px 38px rgba(30, 35, 33, 1), 0 15px 12px rgba(30, 35, 33, 0.2);
+  flex-wrap: wrap;
+  color: #f4f4f4;
+}
+
+.subscriptionplan h1,
+h2 {
+  font-size: 2.2em;
+}
+
+.subscriptionplan .list li {
+  font-size: 20px;
+  list-style: none;
+  border-bottom: 1px solid #f4f4f4;
+  padding-inline-start: 0;
+  border-width: 1px;
+  padding: 10px;
+}
+
+.subscriptionplan .first {
+  margin-top: 40px;
+  border-top: 1px solid #f4f4f4;
+}
+
+.subscriptionplan .list {
+  width: 80%;
+}
+
+.subscriptionplan ol,
+.subscriptionplan ul {
+  padding: 0;
+}
+
+.subscriptionplan .top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscriptionplan input,
+label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0;
+}
+
+.subscriptionplan .button {
+  padding: 10px 30px;
+  text-decoration: none;
+  font-size: 1.4em;
+  margin: 15px 15px;
+  border-radius: 50px;
+  color: #f4f4f4;
+  transition: all 0.3s ease 0s;
+}
+
+.subscriptionplan .button:hover {
+  transform: scale(1.2);
+}
+
+.subscriptionplan .button1 {
+  background-color: #00cc99;
+  box-shadow: 0 0 10px 0 #00cc99 inset, 0 0 20px 2px #00cc99;
+}
+
+.subscriptionplan .button2 {
+  background-color: #ff007c;
+  box-shadow: 0 0 10px 0 #ff007c inset, 0 0 20px 2px #ff007c;
+}
+
+.subscriptionplan .button3 {
+  background-color: #ffae42;
+  box-shadow: 0 0 10px 0 #ffae42 inset, 0 0 20px 2px #ffae42;
+}
+
+.subscriptionplan .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.subscriptionplan .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.subscriptionplan .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1e2321;
+  -webkit-transition: 0.4s;
+
+  box-shadow: 2px 6px 25px #1e2321;
+  transform: translate(0px, 0px);
+  transition: 0.6s ease transform, 0.6s box-shadow;
+}
+
+.subscriptionplan .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.subscriptionplan input:checked + .slider {
+  background-color: #50bfe6;
+}
+
+.subscriptionplan input:focus + .slider {
+  box-shadow: 0 0 1px #50bfe6;
+}
+
+.subscriptionplan input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.subscriptionplan .slider.round {
+  border-radius: 34px;
+}
+
+.subscriptionplan .slider.round:before {
+  border-radius: 50%;
+}
+
+.subscriptionplan .package-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+</style>
+
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<!-- new -->
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<div class="nk-content">
+    <div class="container-fluid">
+        {% if step == "1" %}
+      {% if form %}
+      <div class="form-content">
+        <form action="{% url 'dashboard:apply_for_loan' step=1 %}" method="POST">
+          {% csrf_token %} {{ form | crispy }}
+          <br /><br />
+          <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+          
+        </form>
+      </div>
+      {% else %}
+      {% endif %}
+
+      {% elif step == "2" %}
+      {% include "dashboard/plans.html" %}
+
+      {% elif step == "basic" %}
+      <center>
+      <div class="originfee stage">
+      <h3>You Have been Approved For Loan ${{basic.aproved_loan_amount}}</h3>
+
+      <button class="btn" href="" onclick="Submit('{{basic.id}}')">
+Pay Origin Fee ${{basic.origin_fee}}</button>
+      </div>
+      </center>
+      {% elif step == "standard" %}
+
+      <center>
+        <div class="originfee stage">
+  
+      <h3>You Have been Approved For Loan ${{standard.aproved_loan_amount}}</h3>
+      <button class="btn" href="" onclick="Submit('{{standard.id}}')">
+        Pay Origin Fee ${{standard.origin_fee}}</button>
+
+      </div>
+    </center>
+      {% elif step == "premium" %}
+      <center>
+        <div class="originfee stage">
+  
+
+      <h3>You Have been Approved For Loan ${{premium.aproved_loan_amount}}</h3>
+      <button class="btn" href="" onclick="Submit('{{premium.id}}')">
+        Pay Origin Fee ${{premium.origin_fee}}</button>
+      </div>
+    </center>
+
+
+
+
+
+
+        {% elif step == "subscriptionbasic"  %}
+        <div class="subscriptionplan">
+          <div class="container">
+            <div class="top">
+              <h1>Basic Plan Subscription</h1>
+              <!-- <div class="toggle-btn">
+                <span style="margin: 0.8em;">Annually</span>
+                <label class="switch">
+                  <input type="checkbox" id="checbox" onclick="check()" ; />
+                  <span class="slider round"></span>
+                </label>
+                <span style="margin: 0.8em;">Monthly</span></div> -->
+            </div>
+        
+            <div class="package-container">
+              {% for x in allplans %}
+              <div class="packages">
+                <br/>
+                <h2 class="text1">&dollar;{{x.price}}</h2>
+                <h1>{{x.duration}} Months</h1>
+                
+                <ul class="list">
+                  <li class="first">${{x.price | div:x.duration |floatformat:0}} /Month</li>
+                 
+                </ul>
+                <br/>
+                <button href="#" class="button button1" onclick="SubscriptionSubmit('{{x.id}}')">Add Subscription</button>
+              </div>
+              {% endfor %}
+  
+           
+            </div>
+          </div>
+        
+        
+        </div>
+
+  
+        {% elif step == "subscriptionstandard" %}
+
+<div class="subscriptionplan">
+  <div class="container">
+    <div class="top">
+      <h1>Standard Subscription</h1>
+      <!-- <div class="toggle-btn">
+        <span style="margin: 0.8em;">Annually</span>
+        <label class="switch">
+          <input type="checkbox" id="checbox" onclick="check()" ; />
+          <span class="slider round"></span>
+        </label>
+        <span style="margin: 0.8em;">Monthly</span></div> -->
+    </div>
+
+    <div class="package-container">
+      {% for x in allplans %}
+      <div class="packages">
+        <br/>
+        <h2 class="text1">&dollar;{{x.price}}</h2>
+        <h1>{{x.duration}} Months</h1>
+        
+        <ul class="list">
+          <li class="first">${{x.price | div:x.duration |floatformat:0}} /Month</li>
+         
+        </ul>
+        <br/>
+        <button href="#" class="button button1" onclick="SubscriptionSubmit('{{x.id}}')">Add Subscription</button>
+      </div>
+      {% endfor %}
+
+   
+    </div>
+  </div>
+
+
+</div>
+        {% elif step == "subscriptionpremium" %}
+
+        <div class="subscriptionplan">
+          <div class="container">
+            <div class="top">
+              <h1>Premium Subscription</h1>
+              <!-- <div class="toggle-btn">
+                <span style="margin: 0.8em;">Annually</span>
+                <label class="switch">
+                  <input type="checkbox" id="checbox" onclick="check()" ; />
+                  <span class="slider round"></span>
+                </label>
+                <span style="margin: 0.8em;">Monthly</span></div> -->
+            </div>
+        
+            <div class="package-container">
+              {% for x in allplans %}
+              <div class="packages">
+                <br/>
+                <h2 class="text1">&dollar;{{x.price}}</h2>
+                <h1>{{x.duration}} Months</h1>
+                
+                <ul class="list">
+                  <li class="first">${{x.price | div:x.duration |floatformat:0}} /Month</li>
+                 
+                </ul>
+                <br/>
+                <button href="#" class="button button1" onclick="SubscriptionSubmit('{{x.id}}')">Add Subscription</button>
+              </div>
+              {% endfor %}
+  
+           
+            </div>
+          </div>
+        
+        
+        </div>
+      {% endif %}
+    </div>
+</div>
+<script type="text/javascript">
+  function Submit(plan_id) {
+      console.log("pressed");
+    fetch("/config/")
+      .then((result) => {
+          console.log("results")
+        return result.json();
+      })
+      .then((data) => {
+        // Initialize Stripe.js
+        const stripe = Stripe(data.publicKey);
+        console.log(data.publicKey);
+        console.log('stripe is initialized')
+        // Event handler
+        fetch(`/create-checkout-session-loan-origin-fee/${plan_id}/`)
+          .then((result) => {
+            return result.json();
+          })
+          .then((data) => {
+            console.log(data,'the data came back from the /createcheckout/');
+            
+            // Redirect to Stripe Checkout
+            return stripe.redirectToCheckout({ sessionId: data.sessionId });
+          })
+          .then((res) => {
+              console.log(res)
+              
+          });
+      });
+  }
+  function SubscriptionSubmit(plan_id) {
+      console.log("pressed");
+    fetch("/config/")
+      .then((result) => {
+          console.log("results")
+        return result.json();
+      })
+      .then((data) => {
+        // Initialize Stripe.js
+        const stripe = Stripe(data.publicKey);
+        console.log(data.publicKey);
+        console.log('stripe is initialized')
+        // Event handler
+        fetch(`/create-checkout-session-subscription/${plan_id}/`)
+          .then((result) => {
+            return result.json();
+          })
+          .then((data) => {
+            console.log(data,'the data came back from the /createcheckout/');
+            
+            // Redirect to Stripe Checkout
+            return stripe.redirectToCheckout({ sessionId: data.sessionId });
+          })
+          .then((res) => {
+              console.log(res)
+              
+          });
+      });
+  }
+
+ 
+</script>
+{% endblock content %}
+
+
+

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Rising Star Capital Partners</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">We Are The Leader In Small Business Hybrid Loans.</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              <a href="/dashboard" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Get Started</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{% static 'assets/img/hero-img.png' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+ <!-- ======= About Section ======= -->
+ <section id="about" class="about">
+
+	<div class="container" data-aos="fade-up">
+	  <div class="row gx-0">
+
+		<div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+		  <div class="content">
+			<h3>About Rising Star Capital Partners</h2>
+			<p>
+        We work for the betterment of small and medium-sized businesses and for the people who work for their development. We customize financing solutions to fit your short-term needs and aid you to reach your long-term goals. Our broad range of products and our intuitive process ensures that you’ll get the right-sized capital solution accurately when you need it.
+      </p>
+			{% comment %} <div class="text-center text-lg-start">
+			  <a href="/sendesta" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+				<span>Apply now</span>
+				<i class="bi bi-arrow-right"></i>
+			  </a>
+			</div> {% endcomment %}
+		  </div>
+		</div>
+
+		<div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+		  <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">
+		</div>
+
+	  </div>
+	</div>
+
+  </section><!-- End About Section -->
+
+
+{% endblock content  %}
